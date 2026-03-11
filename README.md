@@ -20,7 +20,7 @@ docker run --gpus all -p 8888:8888 -v $(pwd):/root/workdir ghcr.io/jon-zuka/ai-i
 ```
 
 ### Build locally
-a
+
 ```bash
 git clone https://github.com/jon-zuka/ai-image.git
 cd ai-image
