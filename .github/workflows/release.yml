@@ -1,0 +1,43 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GITHUB_REPO: ghcr.io/${{ github.repository }}
+  CACHE: ghcr.io/${{ github.repository }}/buildcache
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build:
+    name: 👷🏻 Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔑 Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: 🔧 Set up Docker Buildx
+        shell: bash
+        run: |
+          docker buildx create --use
+          docker buildx inspect --bootstrap
+
+      - name: 👷🏻 Build website
+        run: |
+          docker buildx build \
+          --platform linux/amd64 \
+          --push \
+          --cache-from=type=registry,ref=$CACHE \
+          --cache-to=type=registry,ref=$CACHE,mode=max \
+          -t $GITHUB_REPO:$IMAGE_TAG \
+          .
+
+
