@@ -30,15 +30,15 @@ RUN --mount=type=cache,target=/root/.cache/uv \
   uv venv $VIRTUAL_ENV && \
   uv pip install --requirements requirements.txt
 
-CMD [
-  "jupyter-lab",
-  "--allow-root",
-  "--ip=0.0.0.0",
-  "--port=8888",
-  "--no-browser",
-  "--FileContentsManager.delete_to_trash=False",
-  "--ServerApp.token=",
-  "--ServerApp.allow_remote_access=True",
-  "--ServerApp.allow_origin=*",
-  "--ServerApp.trust_xheaders=True"
+CMD [ \
+  "jupyter-lab", \
+  "--allow-root", \
+  "--ip=0.0.0.0", \
+  "--NotebookApp.token=", \
+  "--FileContentsManager.delete_to_trash=False", \
+  "--no-browser", \
+  "--port=8888", \
+  "--ServerApp.allow_remote_access=True", \
+  "--ServerApp.allow_origin=*", \
+  "--ServerApp.trust_xheaders=True" \
 ]
